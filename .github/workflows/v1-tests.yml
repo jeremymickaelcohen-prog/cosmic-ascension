@@ -1,0 +1,21 @@
+name: Cosmic Ascension v1 tests
+on:
+  push:
+    branches: [cosmic-v1-cleanroom]
+    paths: ['v1/**', '.github/workflows/v1-tests.yml']
+  pull_request:
+    paths: ['v1/**']
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: v1
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test
+      - run: node --check src/engine.js
+      - run: node --check src/main.js
